@@ -1,0 +1,77 @@
+sources:
+  나라장터:
+    enabled: true
+    homepage: "https://www.g2b.go.kr"
+    endpoint: ""
+    api_key: ""
+    api_key_param: "serviceKey"
+    category: "입찰/과업지시서"
+    status: "입찰"
+    region: "전국"
+  대광위회의록:
+    enabled: true
+    homepage: "https://www.molit.go.kr/mtc"
+    endpoint: ""
+    category: "회의록"
+    status: "회의록"
+    region: "수도권"
+  서울시도시계획포털:
+    enabled: true
+    homepage: "https://urban.seoul.go.kr"
+    endpoint: ""
+    category: "도시계획"
+    status: "고시"
+    region: "서울"
+  경기도부동산포털:
+    enabled: true
+    homepage: "https://gris.gg.go.kr"
+    endpoint: ""
+    category: "부동산"
+    status: "공고"
+    region: "경기"
+  택지정보시스템:
+    enabled: true
+    homepage: "https://www.jigu.go.kr"
+    endpoint: ""
+    category: "택지"
+    status: "공고"
+  공공데이터포털:
+    enabled: true
+    homepage: "https://www.data.go.kr"
+    endpoint: ""
+    api_key: ""
+    api_key_param: "serviceKey"
+    category: "OpenAPI"
+    status: "통계"
+  온비드:
+    enabled: true
+    homepage: "https://www.onbid.co.kr"
+    endpoint: ""
+    category: "공매"
+    status: "공고"
+  상권정보시스템:
+    enabled: true
+    homepage: "https://sg.sbiz.or.kr"
+    endpoint: ""
+    category: "상권"
+    status: "통계"
+  V월드:
+    enabled: true
+    homepage: "https://www.vworld.kr"
+    endpoint: ""
+    api_key: ""
+    api_key_param: "apiKey"
+    category: "공간정보"
+    status: "통계"
+  통계청:
+    enabled: true
+    homepage: "https://kosis.kr"
+    endpoint: ""
+    category: "인구/경제"
+    status: "통계"
+  한국부동산원:
+    enabled: true
+    homepage: "https://www.reb.or.kr"
+    endpoint: ""
+    category: "부동산통계"
+    status: "통계"
