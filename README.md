@@ -26,6 +26,35 @@ python run_local.py
 ### 4) 종료
 - 터미널에서 `Ctrl + C`
 
+
+## Windows에서 안 될 때 (그림 상황 해결)
+에러 원인: `run_local.py` 파일이 있는 폴더가 아닌 곳(`C:\Users\GSN\TC`)에서 실행해서입니다.
+
+### PowerShell에서 그대로 따라하기
+```powershell
+# 1) 프로젝트 폴더로 이동 (run_local.py가 있는 위치)
+cd C:\path\to\GPT
+
+# 2) 파일 있는지 확인
+dir run_local.py
+
+# 3) 실행
+python .\run_local.py
+```
+
+### Git Bash를 쓰고 싶다면
+PowerShell에서 `bash` 명령이 없는 PC도 많습니다. 그 경우 그냥 **PowerShell만 사용**하세요.
+(Git Bash 설치가 되어 있으면 Git Bash를 직접 열어서 아래처럼 실행)
+```bash
+cd /c/path/to/GPT
+python run_local.py
+```
+
+### 100% 체크 포인트
+- `dir run_local.py` 결과에 파일이 보여야 함
+- 그 다음에 `python .\run_local.py` 실행
+- 브라우저: `http://127.0.0.1:8000`
+
 ## 터미널로 동작 확인 (선택)
 ```bash
 curl http://127.0.0.1:8000/health
