@@ -22,6 +22,9 @@ git --version
 cd C:\Users\GSN\TC
 git clone <저장소주소> gpt
 cd C:\Users\GSN\TC\gpt
+
+# 만약 여기서 다시 `git clone ... GPT`를 했다면 실제 실행 폴더는 아래입니다.
+# cd C:\Users\GSN\TC\gpt\GPT
 ```
 
 > 이미 폴더가 있다면 `git clone`은 생략하고 `cd C:\Users\GSN\TC\gpt`만 실행하세요.
@@ -39,6 +42,16 @@ cd C:\Users\GSN\TC\gpt
 dir run_local.py
 python .\run_local.py
 ```
+
+### 3-1) 더 쉬운 방법: 실행 파일(.bat) 사용
+아래 파일을 더블클릭(또는 PowerShell에서 실행)하면 됩니다.
+```powershell
+.\run_local.bat
+```
+
+이 `.bat`은 다음 두 경로를 자동으로 찾아 실행합니다.
+- `C:\Users\GSN\TC\gpt\run_local.py`
+- `C:\Users\GSN\TC\gpt\GPT\run_local.py` (중첩 clone 케이스)
 
 ### 4) 브라우저 접속
 - `http://127.0.0.1:8000`
