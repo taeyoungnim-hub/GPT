@@ -33,7 +33,7 @@ python run_local.py
 ### PowerShell에서 그대로 따라하기
 ```powershell
 # 1) 프로젝트 폴더로 이동 (run_local.py가 있는 위치)
-cd C:\path\to\GPT
+cd C:\Users\GSN\TC\gpt
 
 # 2) 파일 있는지 확인
 dir run_local.py
@@ -46,7 +46,7 @@ python .\run_local.py
 PowerShell에서 `bash` 명령이 없는 PC도 많습니다. 그 경우 그냥 **PowerShell만 사용**하세요.
 (Git Bash 설치가 되어 있으면 Git Bash를 직접 열어서 아래처럼 실행)
 ```bash
-cd /c/path/to/GPT
+cd /c/Users/GSN/TC/gpt
 python run_local.py
 ```
 
