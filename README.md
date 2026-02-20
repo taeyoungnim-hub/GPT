@@ -9,6 +9,43 @@
 - **검증 레이어**: 수요·정책·교통·이해관계자 4축으로 점수화(`validations`).
 - **운영 레이어**: 로컬 브라우저 UI에서 동기화/검색/검증 루프를 반복.
 
+## 설치 방법 (Windows 기준, Git 포함)
+### 0) Git 설치 확인
+```powershell
+git --version
+```
+- 버전이 나오면 설치됨
+- 안 나오면: https://git-scm.com/download/win 에서 설치 후 PowerShell 재실행
+
+### 1) 프로젝트 받기
+```powershell
+cd C:\Users\GSN\TC
+git clone <저장소주소> gpt
+cd C:\Users\GSN\TC\gpt
+```
+
+> 이미 폴더가 있다면 `git clone`은 생략하고 `cd C:\Users\GSN\TC\gpt`만 실행하세요.
+
+### 2) Python 설치 확인
+```powershell
+python --version
+```
+- 버전이 나오면 OK
+- 안 나오면 Microsoft Store 또는 https://www.python.org/downloads/ 에서 설치
+
+### 3) 로컬 대시보드 실행 (패키지 설치 없이 가능)
+```powershell
+cd C:\Users\GSN\TC\gpt
+dir run_local.py
+python .\run_local.py
+```
+
+### 4) 브라우저 접속
+- `http://127.0.0.1:8000`
+
+### 5) 종료
+- 실행 중인 창에서 `Ctrl + C`
+
 ## 실행하는 법 (가장 빠른 방법)
 ### 1) 서버 실행
 ```bash
