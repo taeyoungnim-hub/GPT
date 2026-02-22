@@ -17,3 +17,24 @@ python ai_hexagon_roadmap.py
 - `business_goal`: 당신의 목표
 - `bottleneck`: 현재 가장 막힌 영역 (`Pillar` enum)
 - `hours_budget`: 주간 운영 시간 (기본 5시간)
+
+---
+
+# 6 에이전트 대시보드 (MVP)
+
+요청하신 투자/사업/부동산 포함 **6개 에이전트 섹션**을 안정적으로 실행하는 CLI 프로그램입니다.
+표준 라이브러리만 사용해서 의존성 오류를 최소화했습니다.
+
+## 파일
+- `agent_dashboard.py`: 메인 프로그램
+- `tests/test_agent_dashboard.py`: 기본 동작 테스트
+
+## 실행
+```bash
+python agent_dashboard.py
+```
+
+## 테스트
+```bash
+pytest -q
+```
