@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Parallel Workspace v5</title>
+  <style>
+    :root { --bg:#0c1226; --panel:#141d3d; --panel2:#1a2652; --line:rgba(255,255,255,.15); --text:#eef2ff; --muted:#aeb8e8; --brand:#6f84ff; }
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:"Pretendard","Noto Sans KR",system-ui,sans-serif; color:var(--text); background:radial-gradient(circle at 20% 0,#1b2f73,var(--bg) 45%); padding:12px; }
+    .wrap { max-width:1900px; margin:0 auto; display:grid; gap:8px; }
+    .card { background:linear-gradient(150deg,rgba(255,255,255,.06),rgba(255,255,255,.02)); border:1px solid var(--line); border-radius:12px; padding:10px; }
+    label { display:block; color:var(--muted); font-size:11px; margin-bottom:6px; text-transform:uppercase; letter-spacing:.03em; }
+    textarea, select, input, button { width:100%; border:1px solid var(--line); border-radius:10px; background:var(--panel); color:var(--text); padding:9px; font-size:13px; }
+    button { border:none; background:linear-gradient(90deg,var(--brand),#8ea0ff); font-weight:700; cursor:pointer; }
+
+    .mainline { display:grid; grid-template-columns: 1fr auto; gap:8px; align-items:start; }
+    .input-area textarea { min-height:78px; }
+    .run-btn { width:120px; height:78px; }
+
+    .mini { display:grid; grid-template-columns: auto auto auto; gap:6px; justify-content:end; align-items:center; }
+    .mini select, .mini input { width:140px; padding:6px 8px; font-size:12px; }
+    .mini button { width:34px; height:34px; padding:0; font-size:15px; background:#223062; border:1px solid var(--line); }
+
+    .board { display:grid; grid-template-columns: repeat(6, 1fr); gap:8px; }
+    .model { background:var(--panel2); border:1px solid var(--line); border-radius:10px; padding:8px; min-height:500px; display:grid; grid-template-rows:auto 1fr; gap:6px; }
+    .model h3 { margin:0; font-size:13px; color:#dce3ff; }
+    .model textarea { min-height:450px; resize:vertical; }
+
+    .conclusion { border:1px solid rgba(111,132,255,.55); }
+    .conclusion-top { display:grid; grid-template-columns: 1fr 170px 130px; gap:8px; align-items:end; }
+    .conclusion textarea { min-height:160px; }
+
+    @media (max-width:1600px) {
+      .board { overflow-x:auto; grid-template-columns: repeat(6,minmax(280px,1fr)); }
+      .conclusion-top { grid-template-columns: 1fr; }
+      .mainline { grid-template-columns: 1fr; }
+      .run-btn { width:100%; height:auto; }
+      .mini { justify-content:start; grid-template-columns: 1fr 1fr auto; }
+      .mini select, .mini input { width:100%; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="card mainline">
+      <div class="input-area">
+        <label for="singleInput">입력</label>
+        <textarea id="singleInput" placeholder="공통 입력"></textarea>
+      </div>
+      <div>
+        <label for="runAll">실행</label>
+        <button id="runAll" class="run-btn">전체 실행</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="mini">
+        <select id="compactCategory">
+          <option value="사업">사업</option><option value="투자">투자</option><option value="글쓰기">글쓰기</option><option value="바이브코딩">바이브코딩</option>
+        </select>
+        <input id="projectName" placeholder="프로젝트" />
+        <button id="saveAll" title="저장">💾</button>
+      </div>
+    </section>
+
+    <section class="card"><div class="board" id="board"></div></section>
+
+    <section class="card conclusion">
+      <div class="conclusion-top">
+        <div>
+          <label for="finalConclusion">결론</label>
+          <textarea id="finalConclusion" placeholder="최종 결론"></textarea>
+        </div>
+        <div>
+          <label for="conclusionMode">결론 모드</label>
+          <select id="conclusionMode">
+            <option value="기본">기본</option>
+            <option value="비판">비판</option>
+            <option value="추론">추론</option>
+            <option value="합의">합의</option>
+            <option value="비판+추론+합의">비판+추론+합의</option>
+          </select>
+        </div>
+        <div>
+          <label for="generateConclusion">실행</label>
+          <button id="generateConclusion">결론 생성</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const services = ["ChatGPT","Gemini","Claude","DeepSeek","Grok","Perplexity"];
+    const stateKey = "parallel-workspace-v5";
+
+    function buildBoard() {
+      const board = document.getElementById("board");
+      board.innerHTML = "";
+      services.forEach((name, idx) => {
+        const card = document.createElement("article");
+        card.className = "model";
+        card.innerHTML = `<h3>${idx + 1}. ${name}</h3><textarea id="output_${idx}" placeholder="${name} 출력"></textarea>`;
+        board.appendChild(card);
+      });
+    }
+
+    function runAll() {
+      const input = document.getElementById("singleInput").value.trim() || "(입력 없음)";
+      const project = document.getElementById("projectName").value.trim() || "기본프로젝트";
+      const category = document.getElementById("compactCategory").value;
+      services.forEach((name, idx) => {
+        document.getElementById(`output_${idx}`).value = `${name}\n[${category}] [${project}]\n${input}\n\n결과 작성`;
+      });
+    }
+
+    function modeGuide(mode) {
+      const guides = {
+        "기본": "핵심 공통점 우선 정리",
+        "비판": "약점/모순/누락 중심으로 반례를 먼저 제시",
+        "추론": "근거→가정→결론 흐름으로 단계적 논리 구성",
+        "합의": "모델 간 중복/일치 의견을 기준으로 합의안 도출",
+        "비판+추론+합의": "1) 비판 2) 추론 3) 합의 순서로 결론을 완성"
+      };
+      return guides[mode] || guides["기본"];
+    }
+
+    function generateConclusion() {
+      const category = document.getElementById("compactCategory").value;
+      const mode = document.getElementById("conclusionMode").value;
+      const summary = services.map((name, idx) => {
+        const t = (document.getElementById(`output_${idx}`).value || "").trim();
+        return `- ${name}: ${t ? t.slice(0, 100) + "..." : "출력 없음"}`;
+      }).join("\n");
+      document.getElementById("finalConclusion").value =
+        `[결론모드: ${mode}]\n카테고리: ${category}\n방식: ${modeGuide(mode)}\n\n` +
+        `최종 결론:\n실행 우선순위 3개와 KPI 2개를 확정하고, 불일치 항목은 검증 과제로 분리합니다.\n\n참조\n${summary}`;
+    }
+
+    function saveAll() {
+      const data = {
+        singleInput: document.getElementById("singleInput").value,
+        projectName: document.getElementById("projectName").value,
+        compactCategory: document.getElementById("compactCategory").value,
+        conclusionMode: document.getElementById("conclusionMode").value,
+        finalConclusion: document.getElementById("finalConclusion").value,
+        outputs: services.map((_, idx) => document.getElementById(`output_${idx}`).value)
+      };
+      localStorage.setItem(stateKey, JSON.stringify(data));
+    }
+
+    function loadAll() {
+      const raw = localStorage.getItem(stateKey);
+      if (!raw) return;
+      try {
+        const data = JSON.parse(raw);
+        document.getElementById("singleInput").value = data.singleInput || "";
+        document.getElementById("projectName").value = data.projectName || "";
+        if (data.compactCategory) document.getElementById("compactCategory").value = data.compactCategory;
+        if (data.conclusionMode) document.getElementById("conclusionMode").value = data.conclusionMode;
+        document.getElementById("finalConclusion").value = data.finalConclusion || "";
+        (data.outputs || []).forEach((txt, idx) => {
+          if (document.getElementById(`output_${idx}`)) document.getElementById(`output_${idx}`).value = txt || "";
+        });
+      } catch (e) { console.error("load error", e); }
+    }
+
+    document.getElementById("runAll").addEventListener("click", runAll);
+    document.getElementById("generateConclusion").addEventListener("click", generateConclusion);
+    document.getElementById("saveAll").addEventListener("click", saveAll);
+
+    buildBoard();
+    loadAll();
+  </script>
+</body>
+</html>
